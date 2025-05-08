@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Дата рождения</title>
+</head>
+<body>
+  <script>
+    // Форма цифр из звездочек (5 строк)
+    const digitMap = {
+      '0': [
+        " ** ",
+        "*  *",
+        "*  *",
+        "*  *",
+        " ** "
+      ],
+      '1': [
+        "  * ",
+        " ** ",
+        "  * ",
+        "  * ",
+        "*** "
+      ],
+      '2': [
+        " ***",
+        "    *",
+        " *** ",
+        "*    ",
+        "**** "
+      ],
+      '3': [
+        "****",
+        "   *",
+        "****",
+        "   *",
+        "****"
+      ],
+      '4': [
+        "*  *",
+        "*  *",
+        "****",
+        "   *",
+        "   *"
+      ],
+      '5': [
+        "****",
+        "*   ",
+        "****",
+        "   *",
+        "****"
+      ],
+      '6': [
+        " ** ",
+        "*   ",
+        "****",
+        "*  *",
+        " ** "
+      ],
+      '7': [
+        "****",
+        "   *",
+        "  * ",
+        " *  ",
+        "*   "
+      ],
+      '8': [
+        " ** ",
+        "*  *",
+        " ** ",
+        "*  *",
+        " ** "
+      ],
+      '9': [
+        " ** ",
+        "*  *",
+        "****",
+        "   *",
+        " ** "
+      ],
+      ' ': [
+        "    ",
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ]
+    };
+
+    // Получение данных от пользователя
+    let day = prompt("Введите день рождения:");
+    let month = prompt("Введите месяц рождения:");
+    let year = prompt("Введите год рождения:");
+
+    // Приведение к числам
+    day = parseInt(day);
+    month = parseInt(month) - 1; // Месяцы в JS с 0
+    year = parseInt(year);
+
+    const birthDate = new Date(year, month, day);
+    const today = new Date();
+
+    //определение дня недели
+    function getWeekDay(date) {
+      const days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+      return days[date.getDay()];
+    }
+
+    //проверка високосного года
+    function isLeapYear(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+
+    //вычисление возраста
+    function calculateAge(birthDate, today) {
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
+    //вывод цифры звёздочками
+    function printDigit(digit) {
+      const lines = digitMap[digit];
+      for (let line of lines) {
+        console.log(line);
+      }
+    }
+
+    //вывод всей даты звёздочками
+    function printDateStars(dateStr) {
+  const lines = ["", "", "", "", ""]; // 5 строк для рисунка
+
+  // Для каждой позиции в дате (цифры + пробел)
+  for (let i = 0; i < dateStr.length; i++) {
+    const char = dateStr[i];
+    const digitPattern = digitMap[char];
+
+    // Добавляем к каждой из 5 линий соответствующую часть
+    for (let row = 0; row < 5; row++) {
+      lines[row] += digitPattern[row] + "  "; // добавляем небольшой пробел между символами
+    }
+  }
+
+  // Выводим все строки
+  console.log("\nДата рождения звёздочками:");
+  for (let line of lines) {
+    console.log(line);
+  }
+}
+
+    // Вывод результатов
+    console.log(`\nДень недели вашего рождения: ${getWeekDay(birthDate)}`);
+    console.log(`Год ${year} ${isLeapYear(year) ? "високосный" : "не високосный"}`);
+    console.log(`Вам ${calculateAge(birthDate, today)} лет`);
+
+    // Вывод даты звёздочками
+    const formattedDate = String(day).padStart(2, '0') +
+                          ' ' + String(parseInt(month) + 1).padStart(2, '0') +
+                          ' ' + String(year).padStart(4, '0');
+    console.log("\nДата рождения звёздочками:");
+    printDateStars(formattedDate);
+  </script>
+</body>
+</html>
